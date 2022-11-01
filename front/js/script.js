@@ -10,7 +10,7 @@ function displayProducts (products) {
    // création d'une boucle pour parcourir et insérer chaque élément
     for (const product of products) {
         let linkElement = document.createElement('a')
-        linkElement.href = "./product.html?_id=${product._id}"
+        linkElement.href = "./product.html?_id" + product._id
         let articleElement = document.createElement('article')
         let pictureElement = document.createElement('img')
         pictureElement.src = product.imageUrl
@@ -19,13 +19,12 @@ function displayProducts (products) {
         nameElement.innerHTML = product.name
         let paragrapheElement = document.createElement('p')
         paragrapheElement.innerHTML = product.description
-
+        
         productContainer.appendChild(linkElement)
         linkElement.appendChild(articleElement)
         articleElement.appendChild(pictureElement)
         articleElement.appendChild(nameElement)
         articleElement.appendChild(paragrapheElement)
-
     }
 }
 
