@@ -10,7 +10,7 @@ function displayProducts (products) {
    // création d'une boucle pour parcourir et insérer chaque élément
     for (const product of products) {
         let linkElement = document.createElement('a')
-        linkElement.href = "./product.html?_id" + product._id
+        linkElement.href = "./product.html?_id=" + product._id  // création du lien vers la page product.html et récupération de l'id
         let articleElement = document.createElement('article')
         let pictureElement = document.createElement('img')
         pictureElement.src = product.imageUrl
