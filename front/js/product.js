@@ -12,7 +12,7 @@ console.log(_id);
 fetch("http://localhost:3000/api/products/" + _id) // récupère directement la key _id dans la requête fetch
     .then(r => r.json())
     .then((product) => displayProduct(product))
-    .catch();
+    .catch(error => console.log("Impossible de charger la page !"));
 //error => console.log("Impossible de charger la page !")
 // affiche les éléments correspondant au produit sélectionné    
 function displayProduct(product) {
@@ -43,7 +43,7 @@ function displayProduct(product) {
         console.log(optionColor);   
     });
  //   adtoCart(productData);
-    };
+  //  };
 
 
 // ecoute du bouton "Ajouter au panier"
@@ -69,6 +69,9 @@ function displayProduct(product) {
         id: _id,
         color: `${selectColor.value}`,
         quantity: `${idQuantity.value}`,
+        name: nameElement.textContent,
+        src: imageProduct.src,
+        alt: imageProduct.alt,
     };
 
     console.log(selection);
@@ -111,7 +114,7 @@ function displayProduct(product) {
       }
     
       });
-  //  };
+    };
 
 
    /* // récupération des options sélectionnées par le client et envoi du panier
