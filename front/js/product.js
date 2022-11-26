@@ -69,9 +69,6 @@ function displayProduct(product) {
         id: _id,
         color: `${selectColor.value}`,
         quantity: `${idQuantity.value}`,
-        name: nameElement.textContent,
-        src: imageProduct.src,
-        alt: imageProduct.alt,
     };
 
     console.log(selection);
