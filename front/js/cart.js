@@ -23,10 +23,9 @@ async function getProductApi(products) {
       let productApi = null;
       await fetch("http://localhost:3000/api/products/" + products[j].id)
       .then((res) => res.json())
-      .then((data) => (productApi = data));
-      if (!productApi) {
-        continue;
-      }
+      .then((data) => (productApi = data))
+      .catch(error => console.log("Impossible de charger la page !")); // si le serveur ne répond pas, affiche ce message
+
       productApi.color = products[j].color;
       productApi.quantity = products[j].quantity;
       productsApi.push(productApi);
@@ -50,7 +49,6 @@ function displayProducts() {
                       <h2>${product.name}</h2>              
                       <p>${product.color}</p>
                       <p>${product.price} €</p>
-                      <p></p>
                     </div>
                     <div class="cart__item__content__settings">
                       <div class="cart__item__content__settings__quantity">
@@ -86,6 +84,8 @@ function displayProducts() {
         localStorage.setItem("product", JSON.stringify(addProduct));
 
         alert("La quantité a bien été mise à jour.")
+        getQuantityTotal();
+       location.reload() 
       })
     }
   };
@@ -93,8 +93,8 @@ function displayProducts() {
   modifyQuantity();
 
 
-  // supprime l'article sélectionné à la fois du DOM et du localestorage
-  function deleteProduct() {
+   // supprime l'article sélectionné à la fois du DOM et du localestorage
+   function deleteProduct() {
     let deleteKanap = document.querySelectorAll(".deleteItem");
     for (let l = 0; l < deleteKanap.length; l++) {
       deleteKanap[l].addEventListener("click", (event) => {
@@ -116,140 +116,40 @@ function displayProducts() {
 
   deleteProduct();
 
-  function getQuantityTotal() {
+  // Calcule le nombre de produits totals dans le panier
+   function getQuantityTotal() {
+    totalQuantity = 0;
     for (let m = 0; m < addProduct.length; m++){
-      let globalQuantity = parseInt (addProduct[m].quantity);
-      console.log(globalQuantity);
-      quantityTotal.push(globalQuantity);
-      console.log(quantityTotal);
+      let newQuantity = parseInt (addProduct[m].quantity, 10); 
+      // converti la valeur sélectionné pour la quantité dans le LS en une chaîne, le transforme en nombre sur la base décimale de 10
+     
+      totalQuantity += newQuantity;
     }
-    const reducer = (accumulator, currentvalue) => accumulator + currentvalue;
-    const additionQuantity = quantityTotal.reduce(reducer, 0);
-    console.log(additionQuantity);
-
-    let affichQuantity = document.querySelector("#totalQuantity");
-affichQuantity.innerHTML = additionQuantity;
-    
+  
+    let quantityTotal = document.querySelector("#totalQuantity");
+   quantityTotal.innerHTML = totalQuantity;
+   
   }
   
   getQuantityTotal();
 
-  
-// Calcule le prix total du panier en fonction de la quantité choisie
+
+  // Calcule le prix total du panier en fonction de la quantité choisie
 function getPriceTotal() {
   for (let n = 0; n < productsApi.length; n++ ) {
     let globalPrice = productsApi[n].price;
     let priceQuantity = productsApi[n].quantity;
-    console.log(priceTotal);
-    console.log(globalPrice);
-    console.log(priceQuantity);
     priceTotal.push(globalPrice * priceQuantity);
   }
   const reducer = (accumulator, currentvalue) => accumulator + currentvalue;
-  const additionPrice = priceTotal.reduce(reducer, 0);
+  const additionPrice = priceTotal.reduce(reducer);
   console.log (additionPrice);
 
   let affichPrix = document.querySelector("#totalPrice");
 affichPrix.innerHTML = additionPrice;
+
 }
 
 getPriceTotal();
 
-
-
-  
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  let picture = document.querySelector(".cart__item__img");
-      let imageProduct = document.createElement("img");
-      imageProduct.src = product.imageUrl;
-      imageProduct.alt = product.altTxt;
-      picture.appendChild(imageProduct);
-      
-      let name = document.querySelector("h2");
-      let nameProduct = document.createElement("h2");
-      name.setAttribute("class", "cart__item__content__description");
-        nameProduct.innerHTML = product.name;
-        name.appendChild(nameProduct);*/
-
-
-        /*let addProduct = JSON.parse(localStorage.getItem("product")); //transforme les chaînes de caractère en tableau
-console.log(addProduct);
-
-const cartContainer = document.querySelector("#cart__items");
-
-if (addProduct === null || addProduct == 0) {
-  const cartEmpty =
-    `<article class="container-cart-empty">
-      <div> Le panier est vide. Veuillez rajouter des articles avant de passer commande.</div> </article>`;
-
-  cartContainer.innerHTML = cartEmpty;
-
-} else {
-
-
-  let cartFull = [];
-
- 
-
-  for (j = 0; j < addProduct.length; j++) {
-
-    fetch(`http://localhost:3000/api/products/` + _id)
-  .then(r => r.json())
-  .then((products) => displayKanap(products))
-  .catch();
-
-
-    function displayKanap(products) {
-      let price = document.querySelector("p");
-      let priceProduct = document.createElement("p");
-      priceProduct.innerHTML = `${products.price} €`;
-      price.appendChild(priceProduct);
-    }
-
-
-
-    cartFull = cartFull + `
-        <article class="cart__item" data-id="¤${addProduct[j].id}" data-color="${addProduct[j].color}">
-                  <div class="cart__item__img">
-                  <img src="${addProduct[j].src}" alt="${addProduct[j].alt}">
-                  </div>
-                  <div class="cart__item__content">
-                    <div class="cart__item__content__description">
-                      <h2>${addProduct[j].name}</h2>              
-                      <p>${addProduct[j].color}</p>
-                      <p></p>
-                    </div>
-                    <div class="cart__item__content__settings">
-                      <div class="cart__item__content__settings__quantity">
-                        <p>Qté : </p>
-                        <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${addProduct[j].quantity}">
-                      </div>
-                      <div class="cart__item__content__settings__delete">
-                        <p class="deleteItem">Supprimer</p>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-        `;
-  }
-
-
-  if (j == addProduct.length) {
-    cartContainer.innerHTML = cartFull;
-  }*/
+};
