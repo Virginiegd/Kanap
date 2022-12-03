@@ -1,23 +1,25 @@
 // Récupère les données enregistrées dans le localestorage
 let addProduct = JSON.parse(localStorage.getItem("product"));
-console.log(addProduct);
 
 let productsApi = [];
 let quantityTotal = [];
 let priceTotal = [];
 let responseServeur = [];
 
-let buyProducts= JSON.parse(localStorage.getItem("orderProducts"));
+// Création d'une variable pour stocker la commande
+let buyProducts = JSON.parse(localStorage.getItem("orderProducts"));
+
+// Récupère les données dans une variable
+getProductApi(addProduct);
 
 const cartContainer = document.querySelector("#cart__items");
 
-getProductApi(addProduct);
-
+// Affichage des produits dans le panier
 async function getProductApi(products) {
-  if (products === null || products == 0) {
+  if (products === null || products == 0) { // si le panier est vide
     const cartEmpty =
       `<article class="container-cart-empty">
-      <div> Le panier est vide. Veuillez rajouter des articles avant de passer commande.</div> </article>`;
+      <div> Le panier est vide. Veuillez rajouter des articles à partir de la page d'accueil avant de passer commande. Merci de votre compréhension.</div> </article>`;
 
     cartContainer.innerHTML = cartEmpty;
 
@@ -27,12 +29,14 @@ async function getProductApi(products) {
       await fetch("http://localhost:3000/api/products/" + products[j].id)
         .then((res) => res.json())
         .then((data) => (productApi = data))
-        .catch(error => console.log("Impossible de charger la page !")); // si le serveur ne répond pas, affiche ce message
+        .catch(error => console.log("Impossible de charger la page !"));
 
+      // Récupère les données du localestorage dans des variables
       productApi.color = products[j].color;
       productApi.quantity = products[j].quantity;
       productsApi.push(productApi);
     }
+    // Appelle la fonction qui va permettre d'afficher les produits
     displayProducts();
   }
 }
@@ -67,6 +71,25 @@ function displayProducts() {
         `;
     })
 
+  // Créer une alerte quand la quantité dépasse les valeurs autorisées
+  function alertQuantity() {
+    let alertKanapQuantity = document.querySelectorAll(".itemQuantity");
+    for (let o = 0; o < alertKanapQuantity.length; o++) {
+      alertKanapQuantity[o].addEventListener("change", function (event) {
+        if (event.target.value >= 1 && event.target.value <= 100) {
+          alertKanapQuantity[o].quantity = event.target.value;
+          localStorage.setItem("product", JSON.stringify(addProduct));
+        } else {
+          alert("Attention, la quantité du produit doit être supérieur à 0 et inférieur à 100. Elle sera automatiquement mise à 1.");
+          event.target.value = 1;
+          alertKanapQuantity[o].quantity = event.target.value;
+          localStorage.setItem("product", JSON.stringify(addProduct));
+        }
+      });
+    };
+  };
+
+  alertQuantity();
   // modifie le nombre de produits sélectionné et met à jour l'information dans le Locale Storage
   function modifyQuantity() {
     let kanapQuantity = document.querySelectorAll(".itemQuantity");
@@ -86,16 +109,15 @@ function displayProducts() {
         addProduct[k] = newAddItem;
         localStorage.setItem("product", JSON.stringify(addProduct));
 
-        alert("La quantité a bien été mise à jour.")
+        alert("La quantité a bien été mise à jour.");
         getQuantityTotal();
-        location.reload()
+        location.reload(); // recharge la page
       })
     }
   };
 
   modifyQuantity();
 
-  
   // supprime l'article sélectionné à la fois du DOM et du localestorage
   function deleteProduct() {
     let deleteKanap = document.querySelectorAll(".deleteItem");
@@ -111,7 +133,7 @@ function displayProducts() {
         localStorage.setItem("product", JSON.stringify(addProduct));
 
         alert("L'article sélectionné a bien été supprimé du panier");
-        window.location.href = "cart.html";
+        window.location.href = "cart.html"; // reactualise la page pour bien prendre en compte la suppression
 
       });
     }
@@ -132,7 +154,7 @@ function displayProducts() {
     let quantityTotal = document.querySelector("#totalQuantity");
     quantityTotal.innerHTML = totalQuantity;
 
-  }
+  };
 
   getQuantityTotal();
 
@@ -144,17 +166,15 @@ function displayProducts() {
       let priceQuantity = productsApi[n].quantity;
       priceTotal.push(globalPrice * priceQuantity);
     }
+    // La méthode reduce() applique une fonction qui est un « accumulateur » et qui traite 
+    // chaque valeur d'une liste (de la gauche vers la droite) afin de la réduire à une seule valeur.
     const reducer = (accumulator, currentvalue) => accumulator + currentvalue;
     const additionPrice = priceTotal.reduce(reducer);
-    console.log(additionPrice);
 
     let affichPrix = document.querySelector("#totalPrice");
     affichPrix.innerHTML = additionPrice;
-
   }
-
   getPriceTotal();
-
 };
 
 // Formulaire de contact
@@ -171,10 +191,8 @@ let valueFirstName, valueLastName, valueAddress, valueCity, valueEmail;
 
 //Formulaire pour le prénom
 firstNameForm.addEventListener("input", (event) => {
-  event.preventDefault();
   valueFirstName;
-  if (event.target.value.length == 0) {
-    console.log("rien");
+  if (event.target.value.length == 0) { // cible le nombre de caractères
     firstNameErrorMsg.innerHTML = "";
     valueFirstName = null;
     console.log(valueFirstName);
@@ -183,12 +201,10 @@ firstNameForm.addEventListener("input", (event) => {
     firstNameErrorMsg.innerHTML = "Le prénom est obligatoire et doit contenir entre 3 et 25 caractères.";
     valueFirstName = null;
     console.log("Le prénom est obligatoire");
-
   }
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/)) { // regex
     firstNameErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
     valueFirstName = event.target.value;
-    console.log("success");
     console.log(valueFirstName);
   }
   if (
@@ -198,14 +214,11 @@ firstNameForm.addEventListener("input", (event) => {
   ) {
     firstNameErrorMsg.innerHTML = "Le prénom ne doit pas contenir de caractères spéciaux ni de chiffres";
     valueFirstName = null;
-    console.log("tout c'est bien passé");
   }
-
 });
 
 // Formulaire pour le nom
 lastNameForm.addEventListener("input", (event) => {
-  event.preventDefault();
   valueLastName;
   if (event.target.value.length == 0) {
     console.log("rien");
@@ -222,7 +235,6 @@ lastNameForm.addEventListener("input", (event) => {
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/)) { // regex
     lastNameErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
     valueLastName = event.target.value;
-    console.log("success");
     console.log(valueLastName);
   }
   if (
@@ -232,14 +244,11 @@ lastNameForm.addEventListener("input", (event) => {
   ) {
     lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux ni de chiffres";
     valueLastName = null;
-    console.log("tout c'est bien passé");
   }
 });
-  
 
 // Formulaire pour l'adresse
 addressForm.addEventListener("input", (event) => {
-  event.preventDefault();
   valueAddress;
   if (event.target.value.length == 0) {
     console.log("rien");
@@ -256,7 +265,6 @@ addressForm.addEventListener("input", (event) => {
   if (event.target.value.match(/^[0-9]{1,4} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/)) { // regex
     addressErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
     valueAddress = event.target.value;
-    console.log("success");
     console.log(valueAddress);
   }
   if (
@@ -266,22 +274,19 @@ addressForm.addEventListener("input", (event) => {
   ) {
     addressErrorMsg.innerHTML = "L'adresse ne doit pas contenir de caractères spéciaux";
     valueAddress = null;
-    console.log("tout c'est bien passé");
   }
 });
 
 // Formulaire pour la ville
 cityForm.addEventListener("input", (event) => {
-  event.preventDefault();
   valueCity;
   if (event.target.value.length == 0) {
-    console.log("rien");
     cityErrorMsg.innerHTML = "";
     valueCity = null;
     console.log(valueCity);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 35) {
-    cityErrorMsg.innerHTML = "La ville est obligatoire.";
+    cityErrorMsg.innerHTML = "La ville est obligatoire et ne doit pas contenir de chiffres.";
     valueCity = null;
     console.log("La ville est obligatoire");
 
@@ -289,7 +294,6 @@ cityForm.addEventListener("input", (event) => {
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/)) { // regex
     cityErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
     valueCity = event.target.value;
-    console.log("success");
     console.log(valueCity);
   }
   if (
@@ -299,15 +303,12 @@ cityForm.addEventListener("input", (event) => {
   ) {
     cityErrorMsg.innerHTML = "La ville ne doit pas contenir de caractères spéciaux";
     valueCity = null;
-    console.log("tout c'est bien passé");
   }
 });
 
 // Formulaire pour l'email
 emailForm.addEventListener("input", (event) => {
-  event.preventDefault();
   if (event.target.value.length == 0) {
-    console.log("rien");
     emailErrorMsg.innerHTML = "";
     valueEmail = null;
     console.log(valueEmail);
@@ -318,7 +319,7 @@ emailForm.addEventListener("input", (event) => {
     console.log(valueEmail);
   }
   if (!event.target.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) && !event.target.value.length == 0) {
-    emailErrorMsg.innerHTML = "L'email n'est pas au bon format.";
+    emailErrorMsg.innerHTML = "L'email n'est pas au bon format (ex: eric.dupont@gmail.com).";
     valueEmail = null;
   }
 });
@@ -329,79 +330,69 @@ let formContact = document.querySelector(".cart__order");
 
 formContact.addEventListener("submit", (event) => {
   event.preventDefault();
-  console.log("vérification");
 
-  if(valueFirstName && valueLastName && valueAddress && valueCity && valueEmail ) {
-    console.log("c'est bon envoie");
-  const finalOrder = JSON.parse(localStorage.getItem("product"));
+  if (valueFirstName && valueLastName && valueAddress && valueCity && valueEmail) {
+    const finalOrder = JSON.parse(localStorage.getItem("product"));
     let orderId = [];
-  console.log(finalOrder);
-    console.log(orderId);
 
     finalOrder.forEach((order) => {
       orderId.push(order.id);
     });
 
-    console.log(orderId);
-
     const data = {
-      contact:{
-        firstName : valueFirstName,
-        lastName : valueLastName,
-        address : valueAddress,
-        city : valueCity,
-        email : valueEmail,
+      contact: {
+        firstName: valueFirstName,
+        lastName: valueLastName,
+        address: valueAddress,
+        city: valueCity,
+        email: valueEmail,
       },
-      products : orderId,
+      products: orderId,
     };
 
-    console.log(data);
 
-    // fetch post
- 
-
+    // Fetch post
     fetch("http://localhost:3000/api/products/order", {
       method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body:JSON.stringify(data),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
     })
-    .then((res) => res.json())
-    .then((promise) => {
-      responseServeur = promise;
-      console.log(responseServeur);
-    
+      .then((res) => res.json())
+      .then((promise) => {
+        responseServeur = promise; // stocke la promise dans une variable
 
-    const dataOrder = {
-      order:responseServeur.orderId,
-    };
+        // Variable qui stocke la réponse du serveur sous forme de variable
+        const dataOrder = {
+          order: responseServeur.orderId,
+        };
 
-   if(buyProducts == null) {
-      buyProducts = [];
-      buyProducts.push(dataOrder);
-      localStorage.setItem("orderProducts", JSON.stringify(buyProducts));
-    
-    } else if(buyProducts !=null) {
-      buyProducts.push(dataOrder);
-      localStorage.setItem("orderProducts", JSON.stringify(buyProducts));
-    }
-    
-    localStorage.removeItem("product");
-    location.href = "confirmation.html";
-  });
+        if (buyProducts == null) {
+          buyProducts = [];
+          buyProducts.push(dataOrder); // on push la réponse du serveur
+          localStorage.setItem("orderProducts", JSON.stringify(buyProducts));
 
-  //Vide les informations du formulaire pour éviter les erreurs
-    firstNameForm.value="";
-    lastNameForm.value="";
-    addressForm.value="";
-    cityForm.value="";
-    emailForm.value="";
-    valueFirstName=null;
-    valueLastName=null;
-    valueAddress=null;
-    valueCity=null;
-    valueEmail=null;
-  
-} else {
+        } else if (buyProducts != null) {
+          buyProducts.push(dataOrder);
+          localStorage.setItem("orderProducts", JSON.stringify(buyProducts));
+        }
+
+        localStorage.removeItem("product");
+        location.href = "confirmation.html";
+      });
+
+    //Vide les informations du formulaire pour éviter les erreurs
+    firstNameForm.value = "";
+    lastNameForm.value = "";
+    addressForm.value = "";
+    cityForm.value = "";
+    emailForm.value = "";
+    valueFirstName = null;
+    valueLastName = null;
+    valueAddress = null;
+    valueCity = null;
+    valueEmail = null;
+
+  } else {
     alert("Veuillez vérifiez le formulaire.")
   }
 });
