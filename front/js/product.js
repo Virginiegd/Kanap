@@ -35,13 +35,14 @@ function displayProduct(product) {
         optionColor.innerText = `${choiceColor}`;
     });
 
+
     // Ecoute du bouton "Ajouter au panier"
     const listenToCart = document.getElementById("addToCart");
     //console.log(listenToCart);
     listenToCart.addEventListener("click", (event) => {
         event.preventDefault(); // empêche la page de se réactualiser au click sur le bouton
 
-        //Récupération des options sélectionnées par le client et envoi du panier
+        //Récupération des options sélectionnées par le client
         const selectColor = document.getElementById("colors");
         const idQuantity = document.querySelector("#quantity");
 
@@ -55,6 +56,8 @@ function displayProduct(product) {
         // Stocke la récupération des valeurs dans le localstorage
         let saveProductLocalStorage = JSON.parse(localStorage.getItem("product")); // transforme les chaînes de caractère en tableau
 
+        let update = false;
+
         const addProductLocalStorage = () => {
             saveProductLocalStorage.push(selection);
             localStorage.setItem("product", JSON.stringify(saveProductLocalStorage)); // transforme le tableau en chaîne de caractère
@@ -63,29 +66,45 @@ function displayProduct(product) {
             alert('Le produit a bien été ajouté au panier');
         };
 
-        let update = false;
+        function watchColorQuantity() {
+            // Vérification de la sélection d'une couleur et de la valeur de la quantité qui doit
+            // être supérieur à 1 et inférieur à 100
+            if (
+                selection.quantity < 1 ||
+                selection.quantity > 100 ||
+                selection.quantity === undefined ||
+                selection.color === "" ||
+                selection.color === undefined
+            ) {
+                alert("Veuillez sélectionnez une couleur et/ou une quantité comprise entre 1 et 100.");
+            } else if
+                // Si des produits sont déjà enregistrés dans le localstorage avec le même id et la même couleur
+                (saveProductLocalStorage) {
+                saveProductLocalStorage.forEach(function (product, key) { // la méthode forEach() permet d'exécuter une fonction donnée sur chaque élément du tableau.
+                    if (product.id == _id && product.color == selectColor.value) { // si des produits sont enregistrés avec ces mêmes clés
+                        saveProductLocalStorage[key].quantity = parseInt(product.quantity) + parseInt(idQuantity.value);
+                        localStorage.setItem("product", JSON.stringify(saveProductLocalStorage));
+                        update = true;
+                        addConfirm();
+                    }
+                });
 
-        // Si des produits sont déjà enregistrés dans le localstorage
-        if (saveProductLocalStorage) {
-            saveProductLocalStorage.forEach(function (product, key) { // la méthode forEach() permet d'exécuter une fonction donnée sur chaque élément du tableau.
-                if (product.id == _id && product.color == selectColor.value) { // si des produits sont enregistrés avec ces mêmes clés
-                    saveProductLocalStorage[key].quantity = parseInt(product.quantity) + parseInt(idQuantity.value);
-                    localStorage.setItem("product", JSON.stringify(saveProductLocalStorage));
-                    update = true;
+                if (!update) {
+                    addProductLocalStorage();
                     addConfirm();
                 }
-            });
-
-            if (!update) {
+            }
+            // Si aucun produit n'est enregistré dans le local storage
+            else {
+                saveProductLocalStorage = []; // crée un tableau vide
                 addProductLocalStorage();
                 addConfirm();
             }
-        }
-        // Si aucun produit n'est enregistré dans le local storage
-        else {
-            saveProductLocalStorage = []; // crée un tableau vide
-            addProductLocalStorage();
-            addConfirm();
-        }
+        };
+
+        watchColorQuantity();
+
     });
 };
+
+

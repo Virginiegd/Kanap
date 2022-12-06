@@ -12,10 +12,11 @@ let buyProducts = JSON.parse(localStorage.getItem("orderProducts"));
 // Récupère les données dans une variable
 getProductApi(addProduct);
 
-const cartContainer = document.querySelector("#cart__items");
-
 // Affichage des produits dans le panier
 async function getProductApi(products) {
+
+  const cartContainer = document.querySelector("#cart__items");
+  
   if (products === null || products == 0) { // si le panier est vide
     const cartEmpty =
       `<article class="container-cart-empty">
@@ -70,6 +71,7 @@ function displayProducts() {
                 </article>
         `;
     })
+
 
   // Créer une alerte quand la quantité dépasse les valeurs autorisées
   function alertQuantity() {
@@ -132,8 +134,8 @@ function displayProducts() {
 
         localStorage.setItem("product", JSON.stringify(addProduct));
 
-        alert("L'article sélectionné a bien été supprimé du panier");
-        window.location.href = "cart.html"; // reactualise la page pour bien prendre en compte la suppression
+        alert("L'article sélectionné a bien été supprimé du panier.");
+        window.location.href = "cart.html"; // réactualise la page pour bien prendre en compte la suppression
 
       });
     }
@@ -141,7 +143,7 @@ function displayProducts() {
 
   deleteProduct();
 
-  // Calcule le nombre de produits totals dans le panier
+  // Calcule le nombre de produits total dans le panier
   function getQuantityTotal() {
     totalQuantity = 0;
     for (let m = 0; m < addProduct.length; m++) {
@@ -212,7 +214,7 @@ firstNameForm.addEventListener("input", (event) => {
     event.target.value.length > 3 &&
     event.target.value.length < 25
   ) {
-    firstNameErrorMsg.innerHTML = "Le prénom ne doit pas contenir de caractères spéciaux ni de chiffres";
+    firstNameErrorMsg.innerHTML = "Le prénom ne doit pas contenir de caractères spéciaux ni de chiffres.";
     valueFirstName = null;
   }
 });
@@ -229,7 +231,7 @@ lastNameForm.addEventListener("input", (event) => {
   else if (event.target.value.length < 3 || event.target.value.length > 25) {
     lastNameErrorMsg.innerHTML = "Le nom est obligatoire et doit contenir entre 3 et 25 caractères.";
     valueLastName = null;
-    console.log("Le nom est obligatoire");
+    console.log("Le nom est obligatoire.");
 
   }
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/)) { // regex
@@ -242,7 +244,7 @@ lastNameForm.addEventListener("input", (event) => {
     event.target.value.length > 3 &&
     event.target.value.length < 25
   ) {
-    lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux ni de chiffres";
+    lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux ni de chiffres.";
     valueLastName = null;
   }
 });
@@ -259,7 +261,7 @@ addressForm.addEventListener("input", (event) => {
   else if (event.target.value.length < 3 || event.target.value.length > 35) {
     addressErrorMsg.innerHTML = "L'adresse est obligatoire.";
     valueAddress = null;
-    console.log("L'adresse est obligatoire");
+    console.log("L'adresse est obligatoire.");
 
   }
   if (event.target.value.match(/^[0-9]{1,4} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/)) { // regex
@@ -272,7 +274,7 @@ addressForm.addEventListener("input", (event) => {
     event.target.value.length > 3 &&
     event.target.value.length < 35
   ) {
-    addressErrorMsg.innerHTML = "L'adresse ne doit pas contenir de caractères spéciaux";
+    addressErrorMsg.innerHTML = "L'adresse ne doit pas contenir de caractères spéciaux.";
     valueAddress = null;
   }
 });
@@ -288,7 +290,7 @@ cityForm.addEventListener("input", (event) => {
   else if (event.target.value.length < 3 || event.target.value.length > 35) {
     cityErrorMsg.innerHTML = "La ville est obligatoire et ne doit pas contenir de chiffres.";
     valueCity = null;
-    console.log("La ville est obligatoire");
+    console.log("La ville est obligatoire.");
 
   }
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/)) { // regex
@@ -301,7 +303,7 @@ cityForm.addEventListener("input", (event) => {
     event.target.value.length > 3 &&
     event.target.value.length < 35
   ) {
-    cityErrorMsg.innerHTML = "La ville ne doit pas contenir de caractères spéciaux";
+    cityErrorMsg.innerHTML = "La ville ne doit pas contenir de caractères spéciaux ni de chiffres.";
     valueCity = null;
   }
 });
