@@ -92,7 +92,7 @@ function displayProducts() {
   };
 
   alertQuantity();
-  // modifie le nombre de produits sélectionné et met à jour l'information dans le Locale Storage
+  // Modifie le nombre de produits sélectionné et met à jour l'information dans le Locale Storage
   function modifyQuantity() {
     let kanapQuantity = document.querySelectorAll(".itemQuantity");
     for (let k = 0; k < kanapQuantity.length; k++) {
@@ -120,7 +120,7 @@ function displayProducts() {
 
   modifyQuantity();
 
-  // supprime l'article sélectionné à la fois du DOM et du localestorage
+  // Supprime l'article sélectionné à la fois du DOM et du localestorage
   function deleteProduct() {
     let deleteKanap = document.querySelectorAll(".deleteItem");
     for (let l = 0; l < deleteKanap.length; l++) {
@@ -130,6 +130,7 @@ function displayProducts() {
         let supprId = addProduct[l].id;
         let supprColor = addProduct[l].color;
 
+        // La méthode filter() crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine qui remplissent une condition déterminée par la fonction callback.
         addProduct = addProduct.filter(e => e.id !== supprId || e.color !== supprColor);
 
         localStorage.setItem("product", JSON.stringify(addProduct));
@@ -148,7 +149,7 @@ function displayProducts() {
     totalQuantity = 0;
     for (let m = 0; m < addProduct.length; m++) {
       let newQuantity = parseInt(addProduct[m].quantity, 10);
-      // converti la valeur sélectionné pour la quantité dans le LS en une chaîne, le transforme en nombre sur la base décimale de 10
+      // Converti la valeur sélectionné pour la quantité dans le localstorage en une chaîne, le transforme en nombre sur la base décimale de 10
 
       totalQuantity += newQuantity;
     }
@@ -326,7 +327,7 @@ emailForm.addEventListener("input", (event) => {
   }
 });
 
-//Envoie du formulaire
+//Envoi du formulaire
 
 let formContact = document.querySelector(".cart__order");
 

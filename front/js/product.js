@@ -63,7 +63,7 @@ function displayProduct(product) {
             localStorage.setItem("product", JSON.stringify(saveProductLocalStorage)); // transforme le tableau en chaîne de caractère
         };
         let addConfirm = () => {
-            alert('Le produit a bien été ajouté au panier');
+            alert('Le produit a bien été ajouté au panier.');
         };
 
         function watchColorQuantity() {
@@ -76,7 +76,7 @@ function displayProduct(product) {
                 selection.color === "" ||
                 selection.color === undefined
             ) {
-                alert("Veuillez sélectionnez une couleur et/ou une quantité comprise entre 1 et 100.");
+                alert("Veuillez sélectionnez une couleur et/ou une quantité comprise entre 1 et 100 avant d'ajouter le produit au panier.");
             } else if
                 // Si des produits sont déjà enregistrés dans le localstorage avec le même id et la même couleur
                 (saveProductLocalStorage) {
