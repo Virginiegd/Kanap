@@ -1,8 +1,12 @@
-//Récupération des données de l'API
+/**Récupération des données de l'API :
+ * Parse le résultat en json
+ * Affiche le résulat de la fonction .then((data) => console.log(data))
+ * Si le serveur ne répond pas, affiche ce message
+ */
 fetch("http://localhost:3000/api/products")
-    .then(r => r.json()) // parse le résultat en json
-    .then((products) => displayProducts(products)) // affiche le résulat de la fonction .then((data) => console.log(data))
-    .catch(error => console.log("Impossible de charger la page !")); // si le serveur ne répond pas, affiche ce message
+    .then(r => r.json())
+    .then((products) => displayProducts(products))
+    .catch(error => console.log("Impossible de charger la page !"));
 
 //Fonction pour afficher les produits
 function displayProducts(products) {

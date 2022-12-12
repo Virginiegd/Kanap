@@ -1,10 +1,12 @@
-// Récupération de l'url
+/** Récupération de l'url
+ * Extraction de la partie de l'url propre au produit
+ * La propriété "searchParams" de "url" nous retourne un objet de type "URLSearchParams"
+ * Récupération de l'id du produit dans une variable
+ */
 const url = window.location.search;
-
-//Extraction de l'id
 const params = new URLSearchParams(url);
 const _id = params.get("_id");
-//console.log(_id);
+console.log(_id);
 
 fetch("http://localhost:3000/api/products/" + _id) // récupère directement la key _id dans la requête fetch
     .then(r => r.json())
@@ -60,15 +62,16 @@ function displayProduct(product) {
 
         const addProductLocalStorage = () => {
             saveProductLocalStorage.push(selection);
-            localStorage.setItem("product", JSON.stringify(saveProductLocalStorage)); // transforme le tableau en chaîne de caractère
+            localStorage.setItem("product", JSON.stringify(saveProductLocalStorage)); // transforme le tableau en chaîne de caractères
         };
         let addConfirm = () => {
             alert('Le produit a bien été ajouté au panier.');
         };
 
         function watchColorQuantity() {
-            // Vérification de la sélection d'une couleur et de la valeur de la quantité qui doit
-            // être supérieur à 1 et inférieur à 100
+            /** Vérification de la sélection d'une couleur et de la valeur 
+             * de la quantité qui doit
+             * être supérieur à 1 et inférieur à 100*/
             if (
                 selection.quantity < 1 ||
                 selection.quantity > 100 ||

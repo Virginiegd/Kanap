@@ -92,6 +92,7 @@ function displayProducts() {
   };
 
   alertQuantity();
+
   // Modifie le nombre de produits sélectionné et met à jour l'information dans le Locale Storage
   function modifyQuantity() {
     let kanapQuantity = document.querySelectorAll(".itemQuantity");
@@ -169,8 +170,10 @@ function displayProducts() {
       let priceQuantity = productsApi[n].quantity;
       priceTotal.push(globalPrice * priceQuantity);
     }
-    // La méthode reduce() applique une fonction qui est un « accumulateur » et qui traite 
-    // chaque valeur d'une liste (de la gauche vers la droite) afin de la réduire à une seule valeur.
+    /** La méthode reduce() applique une fonction qui est un « accumulateur » et 
+     * qui traite chaque valeur d'une liste (de la gauche vers la droite) 
+     * afin de la réduire à une seule valeur.
+     */
     const reducer = (accumulator, currentvalue) => accumulator + currentvalue;
     const additionPrice = priceTotal.reduce(reducer);
 
@@ -260,7 +263,7 @@ addressForm.addEventListener("input", (event) => {
     console.log(valueAddress);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 35) {
-    addressErrorMsg.innerHTML = "L'adresse est obligatoire.";
+    addressErrorMsg.innerHTML = "L'adresse est obligatoire et doit contenir entre 3 et 35 caractères.";
     valueAddress = null;
     console.log("L'adresse est obligatoire.");
 
@@ -342,6 +345,7 @@ formContact.addEventListener("submit", (event) => {
       orderId.push(order.id);
     });
 
+    // Données attendues par le controller
     const data = {
       contact: {
         firstName: valueFirstName,
@@ -361,26 +365,11 @@ formContact.addEventListener("submit", (event) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then((promise) => {
-        responseServeur = promise; // stocke la promise dans une variable
-
-        // Variable qui stocke la réponse du serveur sous forme de variable
-        const dataOrder = {
-          order: responseServeur.orderId,
-        };
-
-        if (buyProducts == null) {
-          buyProducts = [];
-          buyProducts.push(dataOrder); // on push la réponse du serveur
-          localStorage.setItem("orderProducts", JSON.stringify(buyProducts));
-
-        } else if (buyProducts != null) {
-          buyProducts.push(dataOrder);
-          localStorage.setItem("orderProducts", JSON.stringify(buyProducts));
-        }
-
+      .then(data => { 
+        // Ajoute le duo clé-valeur à l'emplacemement de stockage
+        localStorage.setItem(`orderId`, data.orderId);
+        document.location.href = `confirmation.html?id=` + data.orderId;
         localStorage.removeItem("product");
-        location.href = "confirmation.html";
       });
 
     //Vide les informations du formulaire pour éviter les erreurs
