@@ -150,7 +150,7 @@ function displayProducts() {
     totalQuantity = 0;
     for (let m = 0; m < addProduct.length; m++) {
       let newQuantity = parseInt(addProduct[m].quantity, 10);
-      // Converti la valeur sélectionné pour la quantité dans le localstorage en une chaîne, le transforme en nombre sur la base décimale de 10
+      // Converti la valeur sélectionné pour la quantité dans le localstorage en nombre sur la base décimale de 10
 
       totalQuantity += newQuantity;
     }
