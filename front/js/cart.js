@@ -1,4 +1,4 @@
-// Récupère les données enregistrées dans le localestorage
+// Récupère les données enregistrées dans le localStorage
 let addProduct = JSON.parse(localStorage.getItem("product"));
 
 let productsApi = [];
@@ -16,7 +16,7 @@ getProductApi(addProduct);
 async function getProductApi(products) {
 
   const cartContainer = document.querySelector("#cart__items");
-  
+
   if (products === null || products == 0) { // si le panier est vide
     const cartEmpty =
       `<article class="container-cart-empty">
@@ -32,12 +32,12 @@ async function getProductApi(products) {
         .then((data) => (productApi = data))
         .catch(error => console.log("Impossible de charger la page !"));
 
-      // Récupère les données du localestorage dans des variables
+      // Récupère les données du localStorage dans des variables
       productApi.color = products[j].color;
       productApi.quantity = products[j].quantity;
       productsApi.push(productApi);
     }
-    // Appelle la fonction qui va permettre d'afficher les produits
+    // Appel la fonction qui va permettre d'afficher les produits
     displayProducts();
   }
 }
@@ -82,7 +82,7 @@ function displayProducts() {
           alertKanapQuantity[o].quantity = event.target.value;
           localStorage.setItem("product", JSON.stringify(addProduct));
         } else {
-          alert("Attention, la quantité du produit doit être supérieur à 0 et inférieur à 100. Elle sera automatiquement mise à 1.");
+          alert("Attention, la quantité du produit doit être supérieur à 0 et inférieur à 100. Elle sera automatiquement remise à 1.");
           event.target.value = 1;
           alertKanapQuantity[o].quantity = event.target.value;
           localStorage.setItem("product", JSON.stringify(addProduct));
@@ -93,7 +93,7 @@ function displayProducts() {
 
   alertQuantity();
 
-  // Modifie le nombre de produits sélectionné et met à jour l'information dans le Locale Storage
+  // Modifie le nombre de produits sélectionné et met à jour l'information dans le localStorage
   function modifyQuantity() {
     let kanapQuantity = document.querySelectorAll(".itemQuantity");
     for (let k = 0; k < kanapQuantity.length; k++) {
@@ -121,7 +121,7 @@ function displayProducts() {
 
   modifyQuantity();
 
-  // Supprime l'article sélectionné à la fois du DOM et du localestorage
+  // Supprime l'article sélectionné à la fois du DOM et du localStorage
   function deleteProduct() {
     let deleteKanap = document.querySelectorAll(".deleteItem");
     for (let l = 0; l < deleteKanap.length; l++) {
@@ -131,7 +131,10 @@ function displayProducts() {
         let supprId = addProduct[l].id;
         let supprColor = addProduct[l].color;
 
-        // La méthode filter() crée et retourne un nouveau tableau contenant tous les éléments du tableau d'origine qui remplissent une condition déterminée par la fonction callback.
+        /** La méthode filter() crée et retourne un nouveau tableau contenant 
+         * tous les éléments du tableau d'origine qui remplissent une condition 
+         * déterminée par la fonction callback
+        */
         addProduct = addProduct.filter(e => e.id !== supprId || e.color !== supprColor);
 
         localStorage.setItem("product", JSON.stringify(addProduct));
@@ -150,7 +153,7 @@ function displayProducts() {
     totalQuantity = 0;
     for (let m = 0; m < addProduct.length; m++) {
       let newQuantity = parseInt(addProduct[m].quantity, 10);
-      // Converti la valeur sélectionné pour la quantité dans le localstorage en nombre sur la base décimale de 10
+      // Converti la valeur sélectionnée pour la quantité dans le localStorage en nombre sur la base décimale de 10
 
       totalQuantity += newQuantity;
     }
@@ -172,7 +175,7 @@ function displayProducts() {
     }
     /** La méthode reduce() applique une fonction qui est un « accumulateur » et 
      * qui traite chaque valeur d'une liste (de la gauche vers la droite) 
-     * afin de la réduire à une seule valeur.
+     * afin de la réduire à une seule valeur
      */
     const reducer = (accumulator, currentvalue) => accumulator + currentvalue;
     const additionPrice = priceTotal.reduce(reducer);
@@ -192,7 +195,7 @@ const addressForm = document.getElementById("address");
 const cityForm = document.getElementById("city");
 const emailForm = document.getElementById("email");
 
-// On crée des variables vides pour récupérer les informations qui seront déclarés par les visiteurs
+// On crée des variables vides pour récupérer les informations qui seront déclarées par les visiteurs
 let valueFirstName, valueLastName, valueAddress, valueCity, valueEmail;
 
 //Formulaire pour le prénom
@@ -229,7 +232,7 @@ lastNameForm.addEventListener("input", (event) => {
   if (event.target.value.length == 0) {
     console.log("rien");
     lastNameErrorMsg.innerHTML = "";
-    valueLastName = null; // permet à ce que l'information entrée par le visiteur soit remise à zéro quand il l'a change
+    valueLastName = null; // permet à ce que l'information entrée par le visiteur soit remise à zéro quand il la change
     console.log(valueLastName);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 25) {
@@ -262,23 +265,23 @@ addressForm.addEventListener("input", (event) => {
     valueAddress = null;
     console.log(valueAddress);
   }
-  else if (event.target.value.length < 3 || event.target.value.length > 35) {
-    addressErrorMsg.innerHTML = "L'adresse est obligatoire et doit contenir entre 3 et 35 caractères.";
+  else if (event.target.value.length < 3 || event.target.value.length > 45) {
+    addressErrorMsg.innerHTML = "L'adresse est obligatoire et doit contenir entre 3 et 45 caractères.";
     valueAddress = null;
-    console.log("L'adresse est obligatoire.");
+    console.log("L'adresse est obligatoire et doit contenir entre 3 et 45 caractères.");
 
   }
-  if (event.target.value.match(/^[0-9]{1,4} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/)) { // regex
+  if (event.target.value.match(/^[0-9]{1,5} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,45}$/)) { // regex
     addressErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
     valueAddress = event.target.value;
     console.log(valueAddress);
   }
   if (
-    !event.target.value.match(/^[0-9]{1,4} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/) &&
+    !event.target.value.match(/^[0-9]{1,5} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,45}$/) &&
     event.target.value.length > 3 &&
-    event.target.value.length < 35
+    event.target.value.length < 45
   ) {
-    addressErrorMsg.innerHTML = "L'adresse ne doit pas contenir de caractères spéciaux.";
+    addressErrorMsg.innerHTML = "L'adresse ne respecte pas le bon format (ex: 523 allée des Plantes). Les caractères spéciaux sont interdits.";
     valueAddress = null;
   }
 });
@@ -292,7 +295,7 @@ cityForm.addEventListener("input", (event) => {
     console.log(valueCity);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 35) {
-    cityErrorMsg.innerHTML = "La ville est obligatoire et ne doit pas contenir de chiffres.";
+    cityErrorMsg.innerHTML = "La ville est obligatoire et doit contenir entre 3 et 35 caractères.";
     valueCity = null;
     console.log("La ville est obligatoire.");
 
@@ -325,7 +328,7 @@ emailForm.addEventListener("input", (event) => {
     console.log(valueEmail);
   }
   if (!event.target.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) && !event.target.value.length == 0) {
-    emailErrorMsg.innerHTML = "L'email n'est pas au bon format (ex: eric.dupont@gmail.com).";
+    emailErrorMsg.innerHTML = "L'email ne respecte pas le bon format (ex: eric.dupont@gmail.com).";
     valueEmail = null;
   }
 });
@@ -365,7 +368,7 @@ formContact.addEventListener("submit", (event) => {
       body: JSON.stringify(data),
     })
       .then((res) => res.json())
-      .then(data => { 
+      .then(data => {
         // Ajoute le duo clé-valeur à l'emplacemement de stockage
         localStorage.setItem(`orderId`, data.orderId);
         document.location.href = `confirmation.html?id=` + data.orderId;
@@ -385,7 +388,7 @@ formContact.addEventListener("submit", (event) => {
     valueEmail = null;
 
   } else {
-    alert("Veuillez vérifiez le formulaire.")
+    alert("Veuillez vérifier le formulaire.")
   }
 });
 

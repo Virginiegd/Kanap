@@ -8,14 +8,16 @@ const params = new URLSearchParams(url);
 const _id = params.get("_id");
 console.log(_id);
 
-fetch("http://localhost:3000/api/products/" + _id) // récupère directement la key _id dans la requête fetch
+// Récupère directement la key _id dans la requête Fetch
+fetch("http://localhost:3000/api/products/" + _id)
     .then(r => r.json())
     .then((product) => displayProduct(product))
     .catch(error => console.log("Impossible de charger la page !"));
 
 // Affiche les éléments correspondant au produit sélectionné    
 function displayProduct(product) {
-    let pictureElement = document.querySelector(".item__img"); //la méthode querySelector() retourne le premier élément dans le document correspondant au sélecteur
+    //La méthode querySelector() retourne le premier élément dans le document correspondant au sélecteur
+    let pictureElement = document.querySelector(".item__img");
     let imageProduct = document.createElement("img");
     imageProduct.src = product.imageUrl;
     imageProduct.alt = product.altTxt;
@@ -40,7 +42,6 @@ function displayProduct(product) {
 
     // Ecoute du bouton "Ajouter au panier"
     const listenToCart = document.getElementById("addToCart");
-    //console.log(listenToCart);
     listenToCart.addEventListener("click", (event) => {
         event.preventDefault(); // empêche la page de se réactualiser au click sur le bouton
 
@@ -55,7 +56,7 @@ function displayProduct(product) {
             quantity: `${idQuantity.value}`,
         };
 
-        // Stocke la récupération des valeurs dans le localstorage
+        // Stocke la récupération des valeurs dans le localStorage
         let saveProductLocalStorage = JSON.parse(localStorage.getItem("product")); // transforme les chaînes de caractère en tableau
 
         let update = false;
@@ -81,9 +82,10 @@ function displayProduct(product) {
             ) {
                 alert("Veuillez sélectionnez une couleur et/ou une quantité comprise entre 1 et 100 avant d'ajouter le produit au panier.");
             } else if
-                // Si des produits sont déjà enregistrés dans le localstorage avec le même id et la même couleur
+                // Si des produits sont déjà enregistrés dans le localStorage avec le même id et la même couleur
                 (saveProductLocalStorage) {
-                saveProductLocalStorage.forEach(function (product, key) { // la méthode forEach() permet d'exécuter une fonction donnée sur chaque élément du tableau.
+                // La méthode forEach() permet d'exécuter une fonction donnée sur chaque élément du tableau
+                saveProductLocalStorage.forEach(function (product, key) { 
                     if (product.id == _id && product.color == selectColor.value) { // si des produits sont enregistrés avec ces mêmes clés
                         saveProductLocalStorage[key].quantity = parseInt(product.quantity) + parseInt(idQuantity.value);
                         localStorage.setItem("product", JSON.stringify(saveProductLocalStorage));
@@ -97,7 +99,7 @@ function displayProduct(product) {
                     addConfirm();
                 }
             }
-            // Si aucun produit n'est enregistré dans le local storage
+            // Si aucun produit n'est enregistré dans le localStorage
             else {
                 saveProductLocalStorage = []; // crée un tableau vide
                 addProductLocalStorage();

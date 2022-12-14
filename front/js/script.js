@@ -1,6 +1,6 @@
 /**Récupération des données de l'API :
  * Parse le résultat en json
- * Affiche le résulat de la fonction .then((data) => console.log(data))
+ * Affiche le résulat de la fonction => .then((data) => console.log(data))
  * Si le serveur ne répond pas, affiche ce message
  */
 fetch("http://localhost:3000/api/products")
@@ -14,7 +14,8 @@ function displayProducts(products) {
     // Création d'une boucle pour parcourir et insérer chaque élément
     for (const product of products) {
         const linkElement = document.createElement('a');
-        linkElement.href = "./product.html?_id=" + product._id; // création du lien vers la page product.html et récupération de l'id
+        // Création du lien vers la page product.html et récupération de l'id
+        linkElement.href = "./product.html?_id=" + product._id; 
         const articleElement = document.createElement('article');
         const pictureElement = document.createElement('img');
         pictureElement.src = product.imageUrl;

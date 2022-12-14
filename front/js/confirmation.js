@@ -8,4 +8,5 @@ function orderDisplay(){
 
 orderDisplay();
 
-localStorage.removeItem("orderId"); // on efface le numéro de commande du localstorage*/
+// Efface le numéro de commande du localStorage
+localStorage.removeItem("orderId"); 
