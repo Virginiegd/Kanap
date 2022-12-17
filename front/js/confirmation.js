@@ -1,12 +1,14 @@
-/**Récupération des données envoyées lors de la commande sur la page cart.js
+/**Récupération de l'orderId avec la propriété "searchParams"
  * Et affichage de l'orderId
 */
-function orderDisplay(){
+
+const url = window.location.search;
+const params = new URLSearchParams(url);
+const orderId = params.get("id");
+
+function orderDisplay() {
     const orderFinal = document.getElementById("orderId");
-    orderFinal.innerHTML = localStorage.getItem('orderId');
+    orderFinal.innerText = orderId;
 };
 
 orderDisplay();
-
-// Efface le numéro de commande du localStorage
-localStorage.removeItem("orderId"); 

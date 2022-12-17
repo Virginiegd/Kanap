@@ -30,7 +30,7 @@ async function getProductApi(products) {
       await fetch("http://localhost:3000/api/products/" + products[j].id)
         .then((res) => res.json())
         .then((data) => (productApi = data))
-        .catch(error => console.log("Impossible de charger la page !"));
+        .catch(error => alert("Impossible de charger la page !"));
 
       // Récupère les données du localStorage dans des variables
       productApi.color = products[j].color;
@@ -159,7 +159,7 @@ function displayProducts() {
     }
 
     let quantityTotal = document.querySelector("#totalQuantity");
-    quantityTotal.innerHTML = totalQuantity;
+    quantityTotal.innerText = totalQuantity;
 
   };
 
@@ -181,7 +181,7 @@ function displayProducts() {
     const additionPrice = priceTotal.reduce(reducer);
 
     let affichPrix = document.querySelector("#totalPrice");
-    affichPrix.innerHTML = additionPrice;
+    affichPrix.innerText = additionPrice;
   }
   getPriceTotal();
 };
@@ -202,26 +202,23 @@ let valueFirstName, valueLastName, valueAddress, valueCity, valueEmail;
 firstNameForm.addEventListener("input", (event) => {
   valueFirstName;
   if (event.target.value.length == 0) { // cible le nombre de caractères
-    firstNameErrorMsg.innerHTML = "";
+    firstNameErrorMsg.innerText = "";
     valueFirstName = null;
-    console.log(valueFirstName);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 25) {
-    firstNameErrorMsg.innerHTML = "Le prénom est obligatoire et doit contenir entre 3 et 25 caractères.";
+    firstNameErrorMsg.innerText = "Le prénom est obligatoire et doit contenir entre 3 et 25 caractères.";
     valueFirstName = null;
-    console.log("Le prénom est obligatoire");
   }
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/)) { // regex
-    firstNameErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
+    firstNameErrorMsg.innerText = ""; // on récupère directement l'id pour le message d'erreur
     valueFirstName = event.target.value;
-    console.log(valueFirstName);
   }
   if (
     !event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/) &&
     event.target.value.length > 3 &&
     event.target.value.length < 25
   ) {
-    firstNameErrorMsg.innerHTML = "Le prénom ne doit pas contenir de caractères spéciaux ni de chiffres.";
+    firstNameErrorMsg.innerText = "Le prénom ne doit pas contenir de caractères spéciaux ni de chiffres.";
     valueFirstName = null;
   }
 });
@@ -230,28 +227,23 @@ firstNameForm.addEventListener("input", (event) => {
 lastNameForm.addEventListener("input", (event) => {
   valueLastName;
   if (event.target.value.length == 0) {
-    console.log("rien");
-    lastNameErrorMsg.innerHTML = "";
+    lastNameErrorMsg.innerText = "";
     valueLastName = null; // permet à ce que l'information entrée par le visiteur soit remise à zéro quand il la change
-    console.log(valueLastName);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 25) {
-    lastNameErrorMsg.innerHTML = "Le nom est obligatoire et doit contenir entre 3 et 25 caractères.";
+    lastNameErrorMsg.innerText = "Le nom est obligatoire et doit contenir entre 3 et 25 caractères.";
     valueLastName = null;
-    console.log("Le nom est obligatoire.");
-
   }
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/)) { // regex
-    lastNameErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
+    lastNameErrorMsg.innerText = ""; // on récupère directement l'id pour le message d'erreur
     valueLastName = event.target.value;
-    console.log(valueLastName);
   }
   if (
     !event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,25}$/) &&
     event.target.value.length > 3 &&
     event.target.value.length < 25
   ) {
-    lastNameErrorMsg.innerHTML = "Le nom ne doit pas contenir de caractères spéciaux ni de chiffres.";
+    lastNameErrorMsg.innerText = "Le nom ne doit pas contenir de caractères spéciaux ni de chiffres.";
     valueLastName = null;
   }
 });
@@ -260,28 +252,23 @@ lastNameForm.addEventListener("input", (event) => {
 addressForm.addEventListener("input", (event) => {
   valueAddress;
   if (event.target.value.length == 0) {
-    console.log("rien");
-    addressErrorMsg.innerHTML = "";
+    addressErrorMsg.innerText = "";
     valueAddress = null;
-    console.log(valueAddress);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 45) {
-    addressErrorMsg.innerHTML = "L'adresse est obligatoire et doit contenir entre 3 et 45 caractères.";
+    addressErrorMsg.innerText = "L'adresse est obligatoire et doit contenir entre 3 et 45 caractères.";
     valueAddress = null;
-    console.log("L'adresse est obligatoire et doit contenir entre 3 et 45 caractères.");
-
   }
   if (event.target.value.match(/^[0-9]{1,5} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,45}$/)) { // regex
-    addressErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
+    addressErrorMsg.innerText = ""; // on récupère directement l'id pour le message d'erreur
     valueAddress = event.target.value;
-    console.log(valueAddress);
   }
   if (
     !event.target.value.match(/^[0-9]{1,5} [a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,45}$/) &&
     event.target.value.length > 3 &&
     event.target.value.length < 45
   ) {
-    addressErrorMsg.innerHTML = "L'adresse ne respecte pas le bon format (ex: 523 allée des Plantes). Les caractères spéciaux sont interdits.";
+    addressErrorMsg.innerText = "L'adresse ne respecte pas le bon format (ex: 523 allée des Plantes). Les caractères spéciaux sont interdits.";
     valueAddress = null;
   }
 });
@@ -290,27 +277,23 @@ addressForm.addEventListener("input", (event) => {
 cityForm.addEventListener("input", (event) => {
   valueCity;
   if (event.target.value.length == 0) {
-    cityErrorMsg.innerHTML = "";
+    cityErrorMsg.innerText = "";
     valueCity = null;
-    console.log(valueCity);
   }
   else if (event.target.value.length < 3 || event.target.value.length > 35) {
-    cityErrorMsg.innerHTML = "La ville est obligatoire et doit contenir entre 3 et 35 caractères.";
+    cityErrorMsg.innerText = "La ville est obligatoire et doit contenir entre 3 et 35 caractères.";
     valueCity = null;
-    console.log("La ville est obligatoire.");
-
   }
   if (event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/)) { // regex
-    cityErrorMsg.innerHTML = ""; // on récupère directement l'id pour le message d'erreur
+    cityErrorMsg.innerText = ""; // on récupère directement l'id pour le message d'erreur
     valueCity = event.target.value;
-    console.log(valueCity);
   }
   if (
     !event.target.value.match(/^[a-z A-Z áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{3,35}$/) &&
     event.target.value.length > 3 &&
     event.target.value.length < 35
   ) {
-    cityErrorMsg.innerHTML = "La ville ne doit pas contenir de caractères spéciaux ni de chiffres.";
+    cityErrorMsg.innerText = "La ville ne doit pas contenir de caractères spéciaux ni de chiffres.";
     valueCity = null;
   }
 });
@@ -318,17 +301,15 @@ cityForm.addEventListener("input", (event) => {
 // Formulaire pour l'email
 emailForm.addEventListener("input", (event) => {
   if (event.target.value.length == 0) {
-    emailErrorMsg.innerHTML = "";
+    emailErrorMsg.innerText = "";
     valueEmail = null;
-    console.log(valueEmail);
   }
   else if (event.target.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)) {
-    emailErrorMsg.innerHTML = "";
+    emailErrorMsg.innerText = "";
     valueEmail = event.target.value;
-    console.log(valueEmail);
   }
   if (!event.target.value.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/) && !event.target.value.length == 0) {
-    emailErrorMsg.innerHTML = "L'email ne respecte pas le bon format (ex: eric.dupont@gmail.com).";
+    emailErrorMsg.innerText = "L'email ne respecte pas le bon format (ex: eric.dupont@gmail.com).";
     valueEmail = null;
   }
 });
@@ -369,8 +350,6 @@ formContact.addEventListener("submit", (event) => {
     })
       .then((res) => res.json())
       .then(data => {
-        // Ajoute le duo clé-valeur à l'emplacemement de stockage
-        localStorage.setItem(`orderId`, data.orderId);
         document.location.href = `confirmation.html?id=` + data.orderId;
         localStorage.removeItem("product");
       });
@@ -391,5 +370,3 @@ formContact.addEventListener("submit", (event) => {
     alert("Veuillez vérifier le formulaire.")
   }
 });
-
-console.log(buyProducts);

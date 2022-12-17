@@ -6,13 +6,12 @@
 const url = window.location.search;
 const params = new URLSearchParams(url);
 const _id = params.get("_id");
-console.log(_id);
 
 // Récupère directement la key _id dans la requête Fetch
 fetch("http://localhost:3000/api/products/" + _id)
     .then(r => r.json())
     .then((product) => displayProduct(product))
-    .catch(error => console.log("Impossible de charger la page !"));
+    .catch(error => alert("Impossible de charger la page !"));
 
 // Affiche les éléments correspondant au produit sélectionné    
 function displayProduct(product) {
@@ -23,11 +22,11 @@ function displayProduct(product) {
     imageProduct.alt = product.altTxt;
     pictureElement.appendChild(imageProduct);
     let descriptionElement = document.querySelector("#description");
-    descriptionElement.innerHTML = product.description;
+    descriptionElement.innerText = product.description;
     let nameElement = document.querySelector("#title");
-    nameElement.innerHTML = product.name;
+    nameElement.innerText = product.name;
     let priceElement = document.querySelector("#price");
-    priceElement.innerHTML = product.price;
+    priceElement.innerText = product.price;
 
     // Création de la boucle pour le choix des couleurs
     let selectColor = document.getElementById("colors");
